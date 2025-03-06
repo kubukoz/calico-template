@@ -11,5 +11,5 @@ export default defineConfig({
       },
     },
   },
-  base: "/smithy-transcoder",
+  base: "/calico-template",
 });

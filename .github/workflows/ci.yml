@@ -75,11 +75,11 @@ jobs:
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
-        run: mkdir -p target smithyDump/target smithyDumpApi/target web/target project/target
+        run: mkdir -p target web/target project/target
 
       - name: Compress target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
-        run: tar cf targets.tar target smithyDump/target smithyDumpApi/target web/target project/target
+        run: tar cf targets.tar target web/target project/target
 
       - name: Upload target directories
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main')
@@ -99,7 +99,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     environment:
       name: github-pages
-      url: 'https://kubukoz.github.io/smithy-transcoder'
+      url: 'https://TODO'
     steps:
       - name: Checkout current branch (full)
         uses: actions/checkout@v4
@@ -131,8 +131,6 @@ jobs:
         run: |
           tar xf targets.tar
           rm targets.tar
-
-      - run: sbt smithyDump/assembly
 
       - uses: actions/setup-node@v4
         with:
