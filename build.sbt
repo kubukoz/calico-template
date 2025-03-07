@@ -74,6 +74,7 @@ val web = project
     scalaJSUseMainModuleInitializer := true,
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
+        .withModuleSplitStyle(ModuleSplitStyle.SmallModulesFor(List("TODO")))
     },
     libraryDependencies ++= Seq(
       "com.armanbilge" %%% "calico" % "0.2.3",
