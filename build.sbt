@@ -1,8 +1,9 @@
+import org.scalajs.linker.interface.ModuleSplitStyle
 import org.typelevel.sbt.gha.JobEnvironment
 import org.typelevel.sbt.gha.PermissionValue
 import org.typelevel.sbt.gha.Permissions
 
-ThisBuild / scalaVersion := "3.6.3"
+ThisBuild / scalaVersion := "3.7.1"
 ThisBuild / scalacOptions ++= Seq(
   "-no-indent",
   "-deprecation",
@@ -68,6 +69,8 @@ ThisBuild / githubWorkflowGeneratedCI ~= {
   }
 }
 
+ThisBuild / mergifyStewardConfig ~= (_.map(_.withMergeMinors(true)))
+
 val web = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
@@ -78,7 +81,7 @@ val web = project
     },
     libraryDependencies ++= Seq(
       "com.armanbilge" %%% "calico" % "0.2.3",
-      "org.typelevel" %%% "kittens" % "3.4.0",
+      "org.typelevel" %%% "kittens" % "3.5.0",
       "org.typelevel" %%% "cats-core" % "2.13.0",
     ),
   )
