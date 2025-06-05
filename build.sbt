@@ -14,7 +14,6 @@ ThisBuild / scalacOptions ++= Seq(
 )
 
 ThisBuild / githubWorkflowPermissions := Some {
-  // https://github.com/typelevel/sbt-typelevel/pull/794
   Permissions
     .Specify
     .defaultRestrictive
