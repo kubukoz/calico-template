@@ -1,5 +1,6 @@
 import org.scalajs.linker.interface.ModuleSplitStyle
 import org.typelevel.sbt.gha.JobEnvironment
+import org.typelevel.sbt.gha.PermissionScope.Contents
 import org.typelevel.sbt.gha.PermissionValue
 import org.typelevel.sbt.gha.Permissions
 
@@ -14,20 +15,11 @@ ThisBuild / scalacOptions ++= Seq(
 
 ThisBuild / githubWorkflowPermissions := Some {
   // https://github.com/typelevel/sbt-typelevel/pull/794
-  Permissions.Specify(
-    pages = PermissionValue.Write,
-    idToken = PermissionValue.Write,
-    actions = PermissionValue.None,
-    checks = PermissionValue.None,
-    contents = PermissionValue.Read,
-    deployments = PermissionValue.None,
-    issues = PermissionValue.None,
-    packages = PermissionValue.None,
-    pullRequests = PermissionValue.None,
-    repositoryProjects = PermissionValue.None,
-    securityEvents = PermissionValue.None,
-    statuses = PermissionValue.None,
-  )
+  Permissions
+    .Specify
+    .defaultRestrictive
+    .withPages(PermissionValue.Write)
+    .withIdToken(PermissionValue.Write)
 }
 
 ThisBuild / githubWorkflowPublish := Seq(
