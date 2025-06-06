@@ -21,7 +21,7 @@ ThisBuild / githubWorkflowPermissions := Some {
     .withIdToken(PermissionValue.Write)
 }
 
-ThisBuild / githubWorkflowPublish := Seq(
+val yarnBuildSteps = Seq(
   WorkflowStep.Use(
     UseRef.Public("actions", "setup-node", "v4"),
     params = Map(
@@ -35,27 +35,36 @@ ThisBuild / githubWorkflowPublish := Seq(
     List("yarn build"),
     workingDirectory = Some("web"),
   ),
-  WorkflowStep.Use(
-    UseRef.Public("actions", "upload-pages-artifact", "v3"),
-    params = Map("path" -> "web/dist"),
-  ),
-  WorkflowStep.Use(
-    UseRef.Public("actions", "deploy-pages", "v4")
+)
+
+ThisBuild / githubWorkflowBuild ++= yarnBuildSteps
+ThisBuild / githubWorkflowPublish := List.concat(
+  yarnBuildSteps,
+  List(
+    WorkflowStep.Use(
+      UseRef.Public("actions", "upload-pages-artifact", "v3"),
+      params = Map("path" -> "web/dist"),
+    ),
+    WorkflowStep.Use(
+      UseRef.Public("actions", "deploy-pages", "v4")
+    ),
   ),
 )
 
 ThisBuild / githubWorkflowGeneratedCI ~= {
   _.map {
     case job if job.id == "publish" =>
-      job.withEnvironment(
-        Some(
-          JobEnvironment(
-            "github-pages",
-            // https://github.com/typelevel/sbt-typelevel/issues/802
-            Some(new URL("https://TODO")),
+      job
+        .withEnvironment(
+          Some(
+            JobEnvironment(
+              "github-pages",
+              // https://github.com/typelevel/sbt-typelevel/issues/802
+              Some(new URL("https://TODO")),
+            )
           )
         )
-      )
+        .withNeeds(Nil)
     case job => job
   }
 }
