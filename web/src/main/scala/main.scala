@@ -15,7 +15,7 @@ object App extends IOWebApp {
       .dom
       .events[IO, MouseEvent](org.scalajs.dom.window, "mousemove")
       .map { e =>
-        e.screenX -> e.screenY
+        e.clientX -> e.clientY
       }
       .holdResource((0d, 0d))
       .map(_.map(_.toString)),
